@@ -38,6 +38,24 @@ var records = await db.runQuery(
 );
 ```
 
+# Usage with Jest
+
+You can use the mock features of the [jest testing tool](https://jestjs.io) to automatically mock all access to the datastore.
+
+Create something like this in `src/__mocks__/@google-cloud/datastore.ts`:
+
+```js
+import Datastore from 'datastore-mock'
+const { Key } = jest.requireActual('@google-cloud/datastore')
+const mockDatastoreMod = jest.createMockFromModule('@google-cloud/datastore')
+
+mockDatastoreMod.Datastore = Datastore
+module.exports = mockDatastoreMod
+```
+
+Now all imports of `@google-cloud/datastore` in your tests should get you automatically the mocked datastore.
+
+
 # Limitations
 
 The following API's are implemented:
